@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const Page = () => {
   const [background1, setBackground1] = useState("bg-red-600");
   const [background2, setBackground2] = useState("bg-blue-600");
-  const audio = new Audio("/buzz.mp3");
+  const musicPlayers = useRef<HTMLAudioElement | undefined>(
+    typeof Audio !== "undefined" ? new Audio("buzz.mp3") : undefined
+  );
   return (
     <>
       <div className="flex w-screen p-0 h-screen m-0 flex-col">
@@ -14,7 +16,7 @@ const Page = () => {
             const modal1 = document.getElementById(
               "modal1"
             ) as HTMLDialogElement;
-            audio.play();
+            musicPlayers.current?.play();
             modal1.showModal();
           }}
           className={`flex-1 ${background1} border-2 text-4xl font-bold border-black`}
@@ -27,7 +29,8 @@ const Page = () => {
             const modal2 = document.getElementById(
               "modal2"
             ) as HTMLDialogElement;
-            audio.play();
+            musicPlayers.current?.play();
+
             modal2.showModal();
           }}
           className={`flex-1 ${background2} border-2 font-bold text-4xl border-black`}
