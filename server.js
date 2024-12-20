@@ -17,20 +17,21 @@ app.prepare().then(() => {
     io = new Server(server);
     io.on('connection', (socket) => {
       console.log('New client connected', socket.id);
-
+      let buzzerActive = true
       socket.on('disconnect', () => {
         console.log('Client disconnected', socket.id);
       });
 
       socket.on('buzzer-pressed', (team) => {
-        const teams = []
-        teams.push(team)
-        io.emit('buzzer-update', teams[0]);
+        if (buzzerActive){
+          buzzerActive = false
+          io.emit('buzzer-update', team);
+        }
       });
 
       socket.on('buzzer-reset-pressed',()=>{
         io.emit('buzzer-reset')
-        
+        buzzerActive = true
       })
     });
   }
