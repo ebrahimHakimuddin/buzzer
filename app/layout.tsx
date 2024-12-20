@@ -3,6 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   icons: "buzz.svg",
+  applicationName: "Buzzer",
   title: "Buzzer",
   description: "A simple Buzzer App for games.",
 };
