@@ -12,7 +12,7 @@ export default function Home() {
       console.log("Desktop Connected");
     });
     socket?.on("buzzer-update", (team) => {
-      setTeamBuzz(team.team);
+      setTeamBuzz(team);
       const modal = document.getElementById("modal") as HTMLDialogElement;
       musicPlayers.current?.play();
       modal.showModal();
