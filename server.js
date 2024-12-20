@@ -8,7 +8,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 let io;
-
+const teams = []
 app.prepare().then(() => {
   const server = createServer((req, res) => {
     handle(req, res);
@@ -24,7 +24,8 @@ app.prepare().then(() => {
       });
 
       socket.on('buzzer-pressed', (team) => {
-        io.emit('buzzer-update', team);
+        teams.push(team)
+        io.emit('buzzer-update', teams[0]);
       });
 
       socket.on('buzzer-reset-pressed',()=>{
