@@ -3,9 +3,20 @@ import { useEffect, useState } from "react";
 import socket from "../../socket";
 
 const Buzzer = (props: any) => {
+  const [buzzVisibility, setBuzzVisibility] = useState("");
+  const [buzzedVisibility, setBuzzedVisibility] = useState("hidden");
+
   useEffect(() => {
     socket?.on("connect", () => {
       console.log("connected to server");
+    });
+    socket?.on("buzzer-update", () => {
+      setBuzzVisibility("hidden");
+      setBuzzedVisibility("");
+    });
+    socket?.on("buzzer-reset", () => {
+      setBuzzVisibility("");
+      setBuzzedVisibility("hidden");
     });
   });
 
@@ -19,8 +30,12 @@ const Buzzer = (props: any) => {
         >
           <div className="flex-1 justify-center">
             <img
-              src={`${props.buzz}`}
-              className="justify-center size-[300px]"
+              src={`buzz.svg`}
+              className={`justify-center size-[300px] ${buzzVisibility}`}
+            />
+            <img
+              src={`buzzed.svg`}
+              className={`justify-center size-[300px] ${buzzedVisibility}`}
             />
           </div>
         </button>
