@@ -12,6 +12,9 @@ const Buzzer = (team: any) => {
     socket?.on("buzzer-update", () => {
       setBuzz("buzzed.svg");
     });
+    socket?.on("buzzer-reset", () => {
+      setBuzz("buzz.svg");
+    });
   });
 
   return (
