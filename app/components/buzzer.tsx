@@ -5,6 +5,7 @@ import socket from "../../socket";
 const Buzzer = (props: any) => {
   const [buzzVisibility, setBuzzVisibility] = useState("");
   const [buzzedVisibility, setBuzzedVisibility] = useState("hidden");
+  const [buzzStatus, setBuzzStatus] = useState(false);
 
   useEffect(() => {
     socket?.on("connect", () => {
@@ -12,10 +13,12 @@ const Buzzer = (props: any) => {
     });
     socket?.on("buzzer-update", () => {
       setBuzzVisibility("hidden");
+      setBuzzStatus(true);
       setBuzzedVisibility("");
     });
     socket?.on("buzzer-reset", () => {
       setBuzzVisibility("");
+      setBuzzStatus(false);
       setBuzzedVisibility("hidden");
     });
   });
@@ -27,6 +30,7 @@ const Buzzer = (props: any) => {
           onClick={() => {
             socket?.emit("buzzer-pressed", props.team);
           }}
+          disabled={buzzStatus}
         >
           <div className="flex-1 justify-center">
             <img
