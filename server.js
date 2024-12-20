@@ -8,6 +8,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 let io;
+let buzzerActive = true;
+
 app.prepare().then(() => {
   const server = createServer((req, res) => {
     handle(req, res);
@@ -17,7 +19,6 @@ app.prepare().then(() => {
     io = new Server(server);
     io.on('connection', (socket) => {
       console.log('New client connected', socket.id);
-      let buzzerActive = true
       socket.on('disconnect', () => {
         console.log('Client disconnected', socket.id);
       });
@@ -30,8 +31,8 @@ app.prepare().then(() => {
       });
 
       socket.on('buzzer-reset-pressed',()=>{
-        io.emit('buzzer-reset')
         buzzerActive = true
+        io.emit('buzzer-reset')
       })
     });
   }
